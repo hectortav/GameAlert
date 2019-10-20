@@ -10,6 +10,8 @@ class MySlider extends Component {
 		this.state = {
 			min: 0,
 			max: 100,
+			minLabel: 0,
+			maxLabel: "Free",
 			value: defaultValue,
 			id: "myRange"
 		};
@@ -21,16 +23,35 @@ class MySlider extends Component {
 
 	render() {
 		return (
-			<div className="slidecontainer">
-				<input
-					type="range"
-					min={this.state.min}
-					max={this.state.max}
-					value={this.state.value}
-					className="slider"
-					id={this.state.id}
-					onChange={this.handleChange}
-				/>
+			<div>
+				<b>{this.state.value}</b>
+
+				<div className="slidecontainer">
+					<input
+						type="range"
+						min={this.state.min}
+						max={this.state.max}
+						value={this.state.value}
+						className="slider"
+						id={this.state.id}
+						onChange={this.handleChange}
+					/>
+					<div
+						style={{
+							width: "100%",
+							margin: "auto",
+							flexDirection: "row",
+							justifyContent: "space-between"
+						}}
+					>
+						<b style={{ margin: "auto", padding: "0%" }}>
+							{this.state.minLabel}
+						</b>
+						<b style={{ margin: "auto", padding: "90%" }}>
+							{this.state.maxLabel}
+						</b>
+					</div>
+				</div>
 			</div>
 		);
 	}
