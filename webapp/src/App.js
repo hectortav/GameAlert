@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import GetList from "./components/List";
 import Prefs from "./components/Prefs";
+import ls from "local-storage";
 
 class App extends Component {
 	constructor(props) {
@@ -11,12 +12,15 @@ class App extends Component {
 	}
 
 	render() {
-		const { price, percentage } = this.state;
-
+		const percentage = ls.get("percentage") || 50;
+		const price = ls.get("price") || 10;
 		return (
 			<div className="App">
-				{<Prefs />}
-				{<GetList pref_price={10} pref_percent={100} />}
+				{0 ? (
+					<Prefs />
+				) : (
+					<GetList pref_price={price} pref_percent={percentage} />
+				)}
 			</div>
 		);
 	}

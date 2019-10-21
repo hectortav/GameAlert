@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Img from "react-image";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class GetList extends Component {
 	constructor(props) {
@@ -11,8 +12,7 @@ class GetList extends Component {
 			output: [],
 			pref_price: props.pref_price,
 			pref_percent: props.pref_percent,
-			image_height: 150,
-			image_width: 150
+			maxlimit: 200
 		};
 	}
 
@@ -22,7 +22,7 @@ class GetList extends Component {
 				"https://www.reddit.com/r/GameDeals/search.json?q=gamedeals&sort=hot"
 			)
 			.then(response => {
-				console.log(response);
+				//console.log(response);
 				this.setState({
 					posts: response.data.data.children
 				});
@@ -73,7 +73,11 @@ class GetList extends Component {
 					i++;
 				}
 				if (!post.url || post.url.includes("www.reddit.com")) return null;
+				const title = platform
+					? post.title.replace("[" + platform + "]", "")
+					: post.title;
 				return {
+					title: title,
 					key: post.id,
 					info: post.url,
 					pic: post.thumbnail,
@@ -84,7 +88,7 @@ class GetList extends Component {
 			}
 			return null;
 		});
-		console.log(output);
+		//console.log(output);
 		this.setState({
 			output: output
 		});
@@ -93,21 +97,59 @@ class GetList extends Component {
 	render() {
 		const { output } = this.state;
 		return (
-			<div>
+			<div className="list-group">
 				{output.length
 					? output.map(out =>
 							out ? (
-								<div key={out.key}>
-									<h1>[{out.platform ? out.platform : "Unknown"}]</h1>
-									{out.info}
-									{out.pic ? (
-										<Img
-											src={[out.pic, require("../props/default_image.png")]}
-											height={this.state.image_height}
-											width={this.state.image_width}
-										/>
-									) : null}
-								</div>
+								<a
+									href={out.info}
+									className="list-group-item list-group-item-action"
+								>
+									{" "}
+									<div
+										key={out.key}
+										className="d-flex w-100 justify-content-between"
+									>
+										<h5
+											className="mb-1"
+											top="0"
+											left="0%"
+											right="10%"
+											width="90%"
+										>
+											{out.title.length > this.state.maxlimit
+												? out.title.substring(0, this.state.maxlimit - 3) +
+												  "..."
+												: out.title}
+										</h5>
+										<small bottom="0" left="0%" right="90%">
+											{out.platform ? "[" + out.platform + "]" : ""}
+										</small>
+										<div
+											position="absolute"
+											right="0%"
+											left="90%"
+											padding="10"
+											width="10%"
+										>
+											{out.pic ? (
+												<Img
+													bottom="0%"
+													top="10%"
+													height="90%"
+													className="rounded float-left"
+													src={
+														[
+															out.pic,
+															""
+														] /*require("../props/default_image.png")*/
+													}
+												/>
+											) : null}
+										</div>
+										{/*<small>Donec id elit non mi porta.</small>*/}
+									</div>
+								</a>
 							) : null
 					  )
 					: null}
