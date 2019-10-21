@@ -1,40 +1,44 @@
 import React, { Component } from "react";
 import "./Slider.css";
 
-const defaultValue = 50;
-
 class MySlider extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			min: 0,
-			max: 100,
-			minLabel: 0,
-			maxLabel: "Free",
-			value: defaultValue,
-			id: "myRange"
+			id: props.id,
+			min: props.min,
+			max: props.max,
+			minLabel: props.minLabel,
+			maxLabel: props.maxLabel,
+			delimiter: props.delimiter,
+			value: props.defaultValue
 		};
 	}
 
 	handleChange = event => {
+		this.props.onValueChange({ id: this.state.id, value: event.target.value });
 		this.setState({ value: event.target.value });
 	};
 
 	render() {
 		return (
 			<div>
-				<b>{this.state.value}</b>
+				<b>
+					{this.props.value === this.state.max
+						? this.state.maxLabel
+						: this.props.value}
+					{this.state.delimiter}
+				</b>
 
 				<div className="slidecontainer">
 					<input
 						type="range"
 						min={this.state.min}
 						max={this.state.max}
-						value={this.state.value}
 						className="slider"
-						id={this.state.id}
 						onChange={this.handleChange}
+						value={this.props.value}
 					/>
 					<div
 						style={{
