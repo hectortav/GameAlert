@@ -9,8 +9,10 @@ import {
   StatusBar,
   Image,
   FlatList,
+  Linking,
+  TouchableOpacity,
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
+import {List, ListItem, Card} from 'react-native-elements';
 
 class GetList extends Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class GetList extends Component {
       output: [],
       pref_price: props.pref_price,
       pref_percent: props.pref_percent,
-      maxlimit: 200,
+      maxlimit: 100,
     };
   }
 
@@ -106,24 +108,90 @@ class GetList extends Component {
   render() {
     const {output} = this.state;
     return (
-      <SafeAreaView>
+      <SafeAreaView
+        style={{
+          backgroundColor: '#232A2B',
+        }}>
         {output.length ? (
           output.map(out =>
             out ? (
-              <ListItem
+              <View
                 key={out.key}
-                roundAvatar
-                onPress={() => Linking.openURL(out.info)}
-                title={
-                  out.title.length > this.state.maxlimit
-                    ? out.title.substring(0, this.state.maxlimit - 3) + '...'
-                    : out.title
-                }
-                subtitle={out.platform ? '[' + out.platform + ']' : ''}
-                rightAvatar={out.pic ? {source: {uri: out.pic}} : null}
-                bottomDivider={true}
-                topDivider={true}
-              />
+                style={{
+                  backgroundColor: '#232A2B',
+                  shadowOffset: {width: 10, height: 10},
+                  shadowColor: 'black',
+                  shadowOpacity: 1.0,
+                }}>
+                <View>
+                  <View
+                    style={{
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      backgroundColor: '#232A2B',
+                    }}
+                  />
+                  <Card
+                    containerStyle={{
+                      backgroundColor: '#0D1F22',
+                      borderColor: '#0D1F22',
+                      borderRadius: 10,
+                    }}
+                    wrapperStyle={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}
+                    onPress={() => Linking.openURL(out.info)}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                      }}>
+                      <View
+                        style={{
+                          flex: 0.8,
+                        }}>
+                        {
+                          <View>
+                            {out.title.length > this.state.maxlimit ? (
+                              <Text style={{color: '#d3d3d3'}}>
+                                {out.title.substring(
+                                  0,
+                                  this.state.maxlimit - 3,
+                                ) + '...'}
+                              </Text>
+                            ) : (
+                              <Text style={{color: '#d3d3d3'}}>
+                                {out.title}
+                              </Text>
+                            )}
+                          </View>
+                        }
+                      </View>
+                      <View>
+                        {
+                          <Text
+                            style={{
+                              flex: 0.2,
+                              color: '#d3d3d3',
+                            }}>
+                            {out.platform ? '[' + out.platform + ']' : ''}
+                          </Text>
+                        }
+                      </View>
+                    </View>
+                    <Image
+                      source={{uri: out.pic}}
+                      style={{
+                        width: 60,
+                        height: 60,
+                        borderRadius: 60 / 2,
+                      }}
+                    />
+                  </Card>
+                </View>
+              </View>
             ) : (
               <View key={Math.random()} style={{flex: 0}} />
             ),
@@ -141,7 +209,10 @@ const styles = StyleSheet.create({
   lineStyle: {
     borderWidth: 0.5,
     borderColor: 'black',
-    margin: 10,
+  },
+  lineStyle_2: {
+    borderWidth: 1.2,
+    borderColor: 'black',
   },
 });
 
