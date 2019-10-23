@@ -115,14 +115,7 @@ class GetList extends Component {
         {output.length ? (
           output.map(out =>
             out ? (
-              <View
-                key={out.key}
-                style={{
-                  backgroundColor: '#232A2B',
-                  shadowOffset: {width: 10, height: 10},
-                  shadowColor: 'black',
-                  shadowOpacity: 1.0,
-                }}>
+              <View key={out.key}>
                 <View>
                   <View
                     style={{
@@ -133,9 +126,13 @@ class GetList extends Component {
                   />
                   <Card
                     containerStyle={{
-                      backgroundColor: '#0D1F22',
-                      borderColor: '#0D1F22',
-                      borderRadius: 10,
+                      backgroundColor: '#2F2963',
+                      borderColor: '#2F2963',
+                      borderRadius: 20,
+                      elevation: 10,
+                      shadowOffset: {width: 10, height: 10},
+                      shadowColor: 'black',
+                      shadowOpacity: 1.0,
                     }}
                     wrapperStyle={{
                       flexDirection: 'row',
@@ -169,11 +166,10 @@ class GetList extends Component {
                           </View>
                         }
                       </View>
-                      <View>
+                      <View style={{flex: 0.1}}>
                         {
                           <Text
                             style={{
-                              flex: 0.2,
                               color: '#d3d3d3',
                             }}>
                             {out.platform ? '[' + out.platform + ']' : ''}
@@ -184,6 +180,7 @@ class GetList extends Component {
                     <Image
                       source={{uri: out.pic}}
                       style={{
+                        backgroundColor: '#d3d3d3',
                         width: 60,
                         height: 60,
                         borderRadius: 60 / 2,
@@ -193,7 +190,7 @@ class GetList extends Component {
                 </View>
               </View>
             ) : (
-              <View key={Math.random()} style={{flex: 0}} />
+              <View key={Math.random()} />
             ),
           )
         ) : (
