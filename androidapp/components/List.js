@@ -12,7 +12,7 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import {List, ListItem, Card} from 'react-native-elements';
+import {List, ListItem, Card, Header} from 'react-native-elements';
 
 class GetList extends Component {
   constructor(props) {
@@ -112,12 +112,27 @@ class GetList extends Component {
         style={{
           backgroundColor: '#232A2B',
         }}>
+        <Header
+          containerStyle={{
+            backgroundColor: '#2F2963',
+            borderBottomLeftRadius: 15,
+            borderBottomRightRadius: 15,
+            overflow: 'hidden',
+            shadowColor: 'transparent',
+            shadowRadius: 0,
+            shadowOffset: {
+              height: 0,
+            },
+          }}
+          leftComponent={{icon: 'menu', color: '#fff'}}
+          centerComponent={{text: 'MY TITLE', style: {color: '#fff'}}}
+          rightComponent={{icon: 'home', color: '#fff'}}
+        />
         {output.length ? (
           output.map(out =>
             out ? (
               <View key={out.key}>
-                <View>
-                  <View style={{}} />
+                <TouchableOpacity onPress={() => Linking.openURL(out.info)}>
                   <Card
                     onPress={() => Linking.openURL(out.info)}
                     containerStyle={{
@@ -149,8 +164,11 @@ class GetList extends Component {
                         {
                           <Text
                             style={{
-                              fontSize: 20,
-                              color: '#F0C987',
+                              fontSize: 22,
+                              elevation: 5,
+                              textShadowColor: '#000',
+                              textShadowRadius: 5,
+                              color: '#d3d3d3',
                             }}>
                             {out.platform ? '[' + out.platform + ']' : ''}
                           </Text>
@@ -165,9 +183,10 @@ class GetList extends Component {
                             {out.title.length > this.state.maxlimit ? (
                               <Text
                                 style={{
+                                  textAlignVertical: 'center',
+                                  textAlign: 'left',
                                   color: '#d3d3d3',
                                   overflow: 'hidden',
-                                  marginRight: 10,
                                 }}>
                                 {out.title.substring(
                                   0,
@@ -196,7 +215,7 @@ class GetList extends Component {
                       }}
                     />
                   </Card>
-                </View>
+                </TouchableOpacity>
               </View>
             ) : (
               <View key={Math.random()} />
