@@ -23,7 +23,7 @@ class GetList extends Component {
       output: [],
       pref_price: props.pref_price,
       pref_percent: props.pref_percent,
-      maxlimit: 100,
+      maxlimit: 200,
     };
   }
 
@@ -108,7 +108,7 @@ class GetList extends Component {
   render() {
     const {output} = this.state;
     return (
-      <SafeAreaView
+      <ScrollView
         style={{
           backgroundColor: '#232A2B',
         }}>
@@ -117,28 +117,23 @@ class GetList extends Component {
             out ? (
               <View key={out.key}>
                 <View>
-                  <View
-                    style={{
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      backgroundColor: '#232A2B',
-                    }}
-                  />
+                  <View style={{}} />
                   <Card
+                    onPress={() => Linking.openURL(out.info)}
                     containerStyle={{
                       backgroundColor: '#2F2963',
                       borderColor: '#2F2963',
                       borderRadius: 20,
-                      elevation: 10,
+                      elevation: 7,
                       shadowOffset: {width: 10, height: 10},
                       shadowColor: 'black',
                       shadowOpacity: 1.0,
+                      height: 200,
                     }}
                     wrapperStyle={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                    }}
-                    onPress={() => Linking.openURL(out.info)}>
+                    }}>
                     <View
                       style={{
                         flex: 1,
@@ -147,12 +142,33 @@ class GetList extends Component {
                       }}>
                       <View
                         style={{
-                          flex: 0.8,
+                          paddingBottom: 25,
+                          paddingTop: 10,
+                          paddingLeft: 10,
                         }}>
                         {
-                          <View>
+                          <Text
+                            style={{
+                              fontSize: 20,
+                              color: '#F0C987',
+                            }}>
+                            {out.platform ? '[' + out.platform + ']' : ''}
+                          </Text>
+                        }
+                      </View>
+                      <View>
+                        {
+                          <View
+                            style={{
+                              paddingTop: 25,
+                            }}>
                             {out.title.length > this.state.maxlimit ? (
-                              <Text style={{color: '#d3d3d3'}}>
+                              <Text
+                                style={{
+                                  color: '#d3d3d3',
+                                  overflow: 'hidden',
+                                  marginRight: 10,
+                                }}>
                                 {out.title.substring(
                                   0,
                                   this.state.maxlimit - 3,
@@ -166,21 +182,14 @@ class GetList extends Component {
                           </View>
                         }
                       </View>
-                      <View style={{flex: 0.1}}>
-                        {
-                          <Text
-                            style={{
-                              color: '#d3d3d3',
-                            }}>
-                            {out.platform ? '[' + out.platform + ']' : ''}
-                          </Text>
-                        }
-                      </View>
                     </View>
                     <Image
                       source={{uri: out.pic}}
                       style={{
                         backgroundColor: '#d3d3d3',
+                        overflow: 'hidden',
+                        borderWidth: 2,
+                        borderColor: '#20BF55',
                         width: 60,
                         height: 60,
                         borderRadius: 60 / 2,
@@ -196,7 +205,7 @@ class GetList extends Component {
         ) : (
           <Text />
         )}
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 }
