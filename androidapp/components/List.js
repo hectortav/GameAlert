@@ -11,6 +11,7 @@ import {
   FlatList,
   Linking,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import {List, ListItem, Card, Header} from 'react-native-elements';
 
@@ -108,123 +109,108 @@ class GetList extends Component {
   render() {
     const {output} = this.state;
     return (
-      <ScrollView
-        style={{
-          backgroundColor: '#232A2B',
-        }}>
-        <Header
-          containerStyle={{
-            backgroundColor: '#2F2963',
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
-            overflow: 'hidden',
-            shadowColor: 'transparent',
-            shadowRadius: 0,
-            shadowOffset: {
-              height: 0,
-            },
-          }}
-          leftComponent={{icon: 'menu', color: '#fff'}}
-          centerComponent={{text: 'MY TITLE', style: {color: '#fff'}}}
-          rightComponent={{icon: 'home', color: '#fff'}}
-        />
-        {output.length ? (
-          output.map(out =>
-            out ? (
-              <View key={out.key}>
-                <TouchableOpacity onPress={() => Linking.openURL(out.info)}>
-                  <Card
-                    onPress={() => Linking.openURL(out.info)}
-                    containerStyle={{
-                      backgroundColor: '#2F2963',
-                      borderColor: '#2F2963',
-                      borderRadius: 20,
-                      elevation: 7,
-                      shadowOffset: {width: 10, height: 10},
-                      shadowColor: 'black',
-                      shadowOpacity: 1.0,
-                      height: 200,
-                    }}
-                    wrapperStyle={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'column',
+      <View>
+        <View></View>
+        <ScrollView
+          style={{
+            backgroundColor: '#232A2B',
+          }}>
+          {output.length ? (
+            output.map(out =>
+              out ? (
+                <View key={out.key}>
+                  <TouchableOpacity onPress={() => Linking.openURL(out.info)}>
+                    <Card
+                      onPress={() => Linking.openURL(out.info)}
+                      containerStyle={{
+                        backgroundColor: '#373F51',
+                        borderColor: '#373F51',
+                        borderRadius: 20,
+                        elevation: 7,
+                        shadowOffset: {width: 10, height: 10},
+                        shadowColor: 'black',
+                        shadowOpacity: 1.0,
+                        height: 200,
+                      }}
+                      wrapperStyle={{
+                        flexDirection: 'row',
                         justifyContent: 'space-between',
                       }}>
                       <View
                         style={{
-                          paddingBottom: 25,
-                          paddingTop: 10,
-                          paddingLeft: 10,
+                          flex: 1,
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
                         }}>
-                        {
-                          <Text
-                            style={{
-                              fontSize: 22,
-                              elevation: 5,
-                              textShadowColor: '#000',
-                              textShadowRadius: 5,
-                              color: '#d3d3d3',
-                            }}>
-                            {out.platform ? '[' + out.platform + ']' : ''}
-                          </Text>
-                        }
+                        <View
+                          style={{
+                            paddingBottom: 25,
+                            paddingTop: 10,
+                            paddingLeft: 10,
+                          }}>
+                          {
+                            <Text
+                              style={{
+                                fontSize: 22,
+                                elevation: 5,
+                                textShadowColor: '#000',
+                                textShadowRadius: 5,
+                                color: '#fff',
+                              }}>
+                              {out.platform ? '[' + out.platform + ']' : ''}
+                            </Text>
+                          }
+                        </View>
+                        <View>
+                          {
+                            <View
+                              style={{
+                                paddingTop: 25,
+                              }}>
+                              {out.title.length > this.state.maxlimit ? (
+                                <Text
+                                  style={{
+                                    textAlignVertical: 'center',
+                                    textAlign: 'left',
+                                    color: '#fff',
+                                    overflow: 'hidden',
+                                  }}>
+                                  {out.title.substring(
+                                    0,
+                                    this.state.maxlimit - 3,
+                                  ) + '...'}
+                                </Text>
+                              ) : (
+                                <Text style={{color: '#fff'}}>{out.title}</Text>
+                              )}
+                            </View>
+                          }
+                        </View>
                       </View>
-                      <View>
-                        {
-                          <View
-                            style={{
-                              paddingTop: 25,
-                            }}>
-                            {out.title.length > this.state.maxlimit ? (
-                              <Text
-                                style={{
-                                  textAlignVertical: 'center',
-                                  textAlign: 'left',
-                                  color: '#d3d3d3',
-                                  overflow: 'hidden',
-                                }}>
-                                {out.title.substring(
-                                  0,
-                                  this.state.maxlimit - 3,
-                                ) + '...'}
-                              </Text>
-                            ) : (
-                              <Text style={{color: '#d3d3d3'}}>
-                                {out.title}
-                              </Text>
-                            )}
-                          </View>
-                        }
-                      </View>
-                    </View>
-                    <Image
-                      source={{uri: out.pic}}
-                      style={{
-                        backgroundColor: '#d3d3d3',
-                        overflow: 'hidden',
-                        borderWidth: 2,
-                        borderColor: '#20BF55',
-                        width: 60,
-                        height: 60,
-                        borderRadius: 60 / 2,
-                      }}
-                    />
-                  </Card>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View key={Math.random()} />
-            ),
-          )
-        ) : (
-          <Text />
-        )}
-      </ScrollView>
+                      <Image
+                        source={{uri: out.pic}}
+                        style={{
+                          backgroundColor: '#3C153B',
+                          overflow: 'hidden',
+                          borderWidth: 2,
+                          borderColor: '#20BF55',
+                          width: 60,
+                          height: 60,
+                          borderRadius: 60 / 2,
+                        }}
+                      />
+                    </Card>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View key={Math.random()} />
+              ),
+            )
+          ) : (
+            <Text />
+          )}
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -242,3 +228,9 @@ const styles = StyleSheet.create({
 });
 
 export default GetList;
+
+/*
+#5B2333
+#AF1B3F
+#240115
+*/

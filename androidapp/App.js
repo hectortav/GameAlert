@@ -23,7 +23,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import GetList from './components/List';
+import Main from './components/Main';
 import Prefs from './components/Prefs';
 
 class App extends Component {
@@ -37,7 +37,7 @@ class App extends Component {
     //const percentage = ls.get('percentage') || 50;
     //const price = ls.get('price') || 10;
     if (0) return <Prefs />;
-    else return <GetList pref_price={10} pref_percent={50} />;
+    else return <Main />;
   }
 }
 

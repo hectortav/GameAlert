@@ -10,6 +10,7 @@ import {
   Slider,
   Button,
   Switch,
+  AsyncStorage,
 } from 'react-native';
 
 class Prefs extends Component {
@@ -57,6 +58,18 @@ class Prefs extends Component {
     };
   }
 
+  _storeData = async target => {
+    await AsyncStorage.setItem(target.id, target.value);
+  };
+
+  _retrieveData = async key => {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      console.log('-' + value);
+      return value;
+    }
+  };
+
   handleChange = target => {
     const sliderOptions = [...this.state.sliderOptions];
     const index = sliderOptions
@@ -67,6 +80,9 @@ class Prefs extends Component {
     sliderOptions[index].value = target.value;
     this.setState({sliderOptions});
     //ls.set(target.id, target.value);
+    this._storeData({id: target.id, value: target.value.toString()}).catch(
+      error => console.log(error),
+    );
   };
 
   handleChangeShow = target => {
@@ -79,27 +95,89 @@ class Prefs extends Component {
     sliderOptionsShow[index].value = target.value;
     this.setState({sliderOptionsShow});
     //ls.set(target.id, target.value);
+    this._storeData({id: target.id, value: target.value.toString()}).catch(
+      error => console.log(error),
+    );
   };
 
   componentDidMount = () => {
     const sliderOptions = [...this.state.sliderOptions];
+    const sliderOptionsShow = [...this.state.sliderOptionsShow];
+    var value, temp;
+
     var index = sliderOptions
       .map(function(x) {
         return x.key;
       })
       .indexOf('price');
     //sliderOptions[index].value = ls.get('price') || 10;
+    this._retrieveData('price')
+      .then(
+        i => (
+          (sliderOptions[index].value = parseInt(i, 10)),
+          this.setState({sliderOptions})
+        ),
+      )
+      .catch(error => console.log(error));
+    console.log(sliderOptions[index].value);
     index = sliderOptions
       .map(function(x) {
         return x.key;
       })
       .indexOf('percentage');
     //sliderOptions[index].value = ls.get('percentage') || 50;
-    this.setState({sliderOptions});
+    this._retrieveData('percentage')
+      .then(
+        i => (
+          (sliderOptions[index].value = parseInt(i, 10)),
+          this.setState({sliderOptions})
+        ),
+      )
+      .catch(error => console.log(error));
+    console.log(sliderOptions[index].value);
+
+    index = sliderOptionsShow
+      .map(function(x) {
+        return x.key;
+      })
+      .indexOf('price_show');
+    //sliderOptionsShow[index].value = ls.get('price') || 10;
+    this._retrieveData('price_show')
+      .then(
+        i => (
+          (sliderOptionsShow[index].value = parseInt(i, 10)),
+          this.setState({sliderOptionsShow})
+        ),
+      )
+      .catch(error => console.log(error));
+    console.log(sliderOptionsShow[index].value);
+
+    index = sliderOptionsShow
+      .map(function(x) {
+        return x.key;
+      })
+      .indexOf('percentage_show');
+    //sliderOptionsShow[index].value = ls.get('percentage') || 50;
+    this._retrieveData('percentage_show')
+      .then(
+        i => (
+          (sliderOptionsShow[index].value = parseInt(i, 10)),
+          this.setState({sliderOptionsShow})
+        ),
+      )
+      .catch(error => console.log(error));
+    console.log(sliderOptionsShow[index].value);
+
+    this._retrieveData('switch')
+      .then(i => (value = i == 'true'), this.setState({switchValue: value}))
+      .catch(error => console.log(error));
+    console.log(value);
   };
 
   notificationsSwitch = value => {
+    console.log(value);
     this.setState({switchValue: value});
+    this._storeData({id: 'switch', value: value.toString()});
   };
 
   render() {
