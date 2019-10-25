@@ -9,13 +9,13 @@ import {
   Text,
   StatusBar,
   ImageBackground,
+  AsyncStorage,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 class Main extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showList: true,
     };

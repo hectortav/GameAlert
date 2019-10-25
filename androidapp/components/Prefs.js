@@ -10,11 +10,16 @@ import {
   Button,
   Switch,
   AsyncStorage,
+  AppState,
 } from 'react-native';
+
+import PushController from './PushController';
+import PushNotification from 'react-native-push-notification';
 
 class Prefs extends Component {
   constructor(props) {
     super(props);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
     this.state = {
       switchValue: false,
@@ -88,6 +93,8 @@ class Prefs extends Component {
   };
 
   componentDidMount = () => {
+    AppState.addEventListener('change', this.handleAppStateChange);
+
     const sliderOptions = [...this.state.sliderOptions];
     const sliderOptionsShow = [...this.state.sliderOptionsShow];
     var value;
@@ -162,7 +169,25 @@ class Prefs extends Component {
   notificationsSwitch = value => {
     this.setState({switchValue: value});
     AsyncStorage.setItem('switch', value.toString());
+    if (value) PushNotification.requestPermissions();
+    else PushNotification.cancelAllLocalNotifications();
   };
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(appState) {
+    var date;
+    if (appState === 'background') {
+      date = new Date(Date.now() + 5 * 1000);
+
+      PushNotification.localNotificationSchedule({
+        message: 'My Notification Message',
+        date,
+      });
+    }
+  }
 
   render() {
     return (
@@ -321,6 +346,7 @@ class Prefs extends Component {
           ))}
         </View>
         <View style={{flex: 0.2}} />
+        <PushController />
       </SafeAreaView>
     );
   }

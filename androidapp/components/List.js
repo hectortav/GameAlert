@@ -56,8 +56,6 @@ class GetList extends Component {
           this.setState({pref_percent: parseInt(asyncStorageRes, 10)});
       })
       .catch(err => console.log(err));
-    console.log('-' + this.state.pref_price);
-    console.log('-' + this.state.pref_percent);
   }
 
   getGames() {
