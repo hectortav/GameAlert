@@ -12,6 +12,7 @@ import {
   Linking,
   TouchableOpacity,
   ImageBackground,
+  AsyncStorage,
 } from 'react-native';
 import {List, ListItem, Card, Header} from 'react-native-elements';
 
@@ -22,8 +23,8 @@ class GetList extends Component {
     this.state = {
       posts: [],
       output: [],
-      pref_price: props.pref_price,
-      pref_percent: props.pref_percent,
+      pref_price: 10,
+      pref_percent: 50,
       maxlimit: 200,
     };
   }
@@ -43,6 +44,20 @@ class GetList extends Component {
       .catch(error => {
         console.log(error);
       });
+    AsyncStorage.getItem('price_show')
+      .then(asyncStorageRes => {
+        console.log(JSON.parse(asyncStorageRes)),
+          this.setState({pref_price: parseInt(asyncStorageRes, 10)});
+      })
+      .catch(err => console.log(err));
+    AsyncStorage.getItem('percentage_show')
+      .then(asyncStorageRes => {
+        console.log(JSON.parse(asyncStorageRes)),
+          this.setState({pref_percent: parseInt(asyncStorageRes, 10)});
+      })
+      .catch(err => console.log(err));
+    console.log('-' + this.state.pref_price);
+    console.log('-' + this.state.pref_percent);
   }
 
   getGames() {

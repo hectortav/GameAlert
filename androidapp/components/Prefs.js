@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-//import Slider from './Slider';
 import {
   SafeAreaView,
   StyleSheet,
@@ -58,18 +57,6 @@ class Prefs extends Component {
     };
   }
 
-  _storeData = async target => {
-    await AsyncStorage.setItem(target.id, target.value);
-  };
-
-  _retrieveData = async key => {
-    const value = await AsyncStorage.getItem(key);
-    if (value !== null) {
-      console.log('-' + value);
-      return value;
-    }
-  };
-
   handleChange = target => {
     const sliderOptions = [...this.state.sliderOptions];
     const index = sliderOptions
@@ -79,10 +66,10 @@ class Prefs extends Component {
       .indexOf(target.id);
     sliderOptions[index].value = target.value;
     this.setState({sliderOptions});
-    //ls.set(target.id, target.value);
-    this._storeData({id: target.id, value: target.value.toString()}).catch(
-      error => console.log(error),
+    AsyncStorage.setItem(target.id.toString(), target.value.toString()).catch(
+      err => console.log(err),
     );
+    //ls.set(target.id, target.value);
   };
 
   handleChangeShow = target => {
@@ -94,90 +81,87 @@ class Prefs extends Component {
       .indexOf(target.id);
     sliderOptionsShow[index].value = target.value;
     this.setState({sliderOptionsShow});
-    //ls.set(target.id, target.value);
-    this._storeData({id: target.id, value: target.value.toString()}).catch(
-      error => console.log(error),
+    AsyncStorage.setItem(target.id.toString(), target.value.toString()).catch(
+      err => console.log(err),
     );
+    //ls.set(target.id, target.value);
   };
 
   componentDidMount = () => {
     const sliderOptions = [...this.state.sliderOptions];
     const sliderOptionsShow = [...this.state.sliderOptionsShow];
-    var value, temp;
+    var value;
 
-    var index = sliderOptions
+    var index_0 = sliderOptions
       .map(function(x) {
         return x.key;
       })
       .indexOf('price');
-    //sliderOptions[index].value = ls.get('price') || 10;
-    this._retrieveData('price')
-      .then(
-        i => (
-          (sliderOptions[index].value = parseInt(i, 10)),
-          this.setState({sliderOptions})
-        ),
-      )
-      .catch(error => console.log(error));
-    console.log(sliderOptions[index].value);
-    index = sliderOptions
+
+    AsyncStorage.getItem('price'.toString())
+      .then(asyncStorageRes => {
+        //console.log('-' + JSON.parse(asyncStorageRes)),
+        (sliderOptions[index_0].value = parseInt(asyncStorageRes, 10)),
+          this.setState({sliderOptions});
+        //console.log('--' + sliderOptions[index].value + ' ' + index);
+      })
+      .catch(err => console.log(err));
+
+    var index_1 = sliderOptions
       .map(function(x) {
         return x.key;
       })
       .indexOf('percentage');
-    //sliderOptions[index].value = ls.get('percentage') || 50;
-    this._retrieveData('percentage')
-      .then(
-        i => (
-          (sliderOptions[index].value = parseInt(i, 10)),
-          this.setState({sliderOptions})
-        ),
-      )
-      .catch(error => console.log(error));
-    console.log(sliderOptions[index].value);
 
-    index = sliderOptionsShow
+    AsyncStorage.getItem('percentage'.toString())
+      .then(asyncStorageRes => {
+        //console.log(JSON.parse(asyncStorageRes)),
+        (sliderOptions[index_1].value = parseInt(asyncStorageRes, 10)),
+          this.setState({sliderOptions});
+      })
+      .catch(err => console.log(err));
+
+    index_0 = sliderOptionsShow
       .map(function(x) {
         return x.key;
       })
       .indexOf('price_show');
-    //sliderOptionsShow[index].value = ls.get('price') || 10;
-    this._retrieveData('price_show')
-      .then(
-        i => (
-          (sliderOptionsShow[index].value = parseInt(i, 10)),
-          this.setState({sliderOptionsShow})
-        ),
-      )
-      .catch(error => console.log(error));
-    console.log(sliderOptionsShow[index].value);
 
-    index = sliderOptionsShow
+    AsyncStorage.getItem('price_show'.toString())
+      .then(asyncStorageRes => {
+        //console.log('-' + JSON.parse(asyncStorageRes)),
+        (sliderOptionsShow[index_0].value = parseInt(asyncStorageRes, 10)),
+          this.setState({sliderOptionsShow});
+        //console.log('--' + sliderOptions[index].value + ' ' + index);
+      })
+      .catch(err => console.log(err));
+
+    index_1 = sliderOptionsShow
       .map(function(x) {
         return x.key;
       })
       .indexOf('percentage_show');
-    //sliderOptionsShow[index].value = ls.get('percentage') || 50;
-    this._retrieveData('percentage_show')
-      .then(
-        i => (
-          (sliderOptionsShow[index].value = parseInt(i, 10)),
-          this.setState({sliderOptionsShow})
-        ),
-      )
-      .catch(error => console.log(error));
-    console.log(sliderOptionsShow[index].value);
 
-    this._retrieveData('switch')
-      .then(i => (value = i == 'true'), this.setState({switchValue: value}))
-      .catch(error => console.log(error));
-    console.log(value);
+    AsyncStorage.getItem('percentage_show'.toString())
+      .then(asyncStorageRes => {
+        //console.log(JSON.parse(asyncStorageRes)),
+        (sliderOptionsShow[index_1].value = parseInt(asyncStorageRes, 10)),
+          this.setState({sliderOptionsShow});
+      })
+      .catch(err => console.log(err));
+
+    AsyncStorage.getItem('switch'.toString())
+      .then(asyncStorageRes => {
+        //console.log(JSON.parse(asyncStorageRes)),
+        (value = asyncStorageRes == 'true'),
+          this.setState({switchValue: value});
+      })
+      .catch(err => console.log(err));
   };
 
   notificationsSwitch = value => {
-    console.log(value);
     this.setState({switchValue: value});
-    this._storeData({id: 'switch', value: value.toString()});
+    AsyncStorage.setItem('switch', value.toString());
   };
 
   render() {
@@ -213,7 +197,6 @@ class Prefs extends Component {
           {this.state.sliderOptionsShow.map(slider => (
             <View key={slider.key}>
               <Slider
-                style={{}}
                 key={slider.key}
                 step={1}
                 minimumValue={slider.min}

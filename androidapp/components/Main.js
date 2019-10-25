@@ -9,7 +9,6 @@ import {
   Text,
   StatusBar,
   ImageBackground,
-  AsyncStorage,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -33,27 +32,7 @@ class Main extends Component {
       });
   };
 
-  _retrieveData = async key => {
-    console.log('retrieve');
-    console.log(key);
-    const value = await AsyncStorage.getItem(key);
-    if (value !== null) {
-      console.log({key: key, value: value});
-      return value;
-    }
-  };
-
   render() {
-    var pref_price;
-    var pref_percent;
-
-    this._retrieveData('price_show')
-      .then(i => (pref_price = parseInt(i, 10)))
-      .catch(error => console.log(error));
-    this._retrieveData('percentage_show')
-      .then(i => (pref_percent = parseInt(i, 10)))
-      .catch(error => console.log(error));
-
     return (
       <View style={{backgroundColor: '#232A2B', flex: 1}}>
         <View
@@ -109,11 +88,7 @@ class Main extends Component {
             </View>
           </ImageBackground>
         </View>
-        {this.state.showList ? (
-          <GetList pref_price={pref_price} pref_percent={pref_percent} />
-        ) : (
-          <Prefs />
-        )}
+        {this.state.showList ? <GetList /> : <Prefs />}
       </View>
     );
   }
