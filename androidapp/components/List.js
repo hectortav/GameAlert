@@ -32,7 +32,7 @@ class GetList extends Component {
   componentDidMount() {
     axios
       .get(
-        'https://www.reddit.com/r/GameDeals/search.json?q=gamedeals&sort=hot',
+        'https://www.reddit.com/r/GameDeals/search.json?q=gamedeals&sort=new',
       )
       .then(response => {
         //console.log(response);
@@ -46,14 +46,14 @@ class GetList extends Component {
       });
     AsyncStorage.getItem('price_show')
       .then(asyncStorageRes => {
-        console.log(JSON.parse(asyncStorageRes)),
-          this.setState({pref_price: parseInt(asyncStorageRes, 10)});
+        //console.log(JSON.parse(asyncStorageRes)),
+        this.setState({pref_price: parseInt(asyncStorageRes, 10)});
       })
       .catch(err => console.log(err));
     AsyncStorage.getItem('percentage_show')
       .then(asyncStorageRes => {
-        console.log(JSON.parse(asyncStorageRes)),
-          this.setState({pref_percent: parseInt(asyncStorageRes, 10)});
+        //console.log(JSON.parse(asyncStorageRes)),
+        this.setState({pref_percent: parseInt(asyncStorageRes, 10)});
       })
       .catch(err => console.log(err));
   }

@@ -12,6 +12,12 @@ import {
   AsyncStorage,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import BackgroundTask from 'react-native-background-task';
+
+BackgroundTask.define(() => {
+  console.log('Hello from a background task');
+  BackgroundTask.finish();
+});
 
 class Main extends Component {
   constructor(props) {
@@ -19,6 +25,10 @@ class Main extends Component {
     this.state = {
       showList: true,
     };
+  }
+
+  componentDidMount() {
+    BackgroundTask.schedule();
   }
 
   switch = () => {

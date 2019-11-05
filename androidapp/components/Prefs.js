@@ -108,8 +108,11 @@ class Prefs extends Component {
     AsyncStorage.getItem('price'.toString())
       .then(asyncStorageRes => {
         //console.log('-' + JSON.parse(asyncStorageRes)),
-        (sliderOptions[index_0].value = parseInt(asyncStorageRes, 10)),
-          this.setState({sliderOptions});
+        if (!asyncStorageRes)
+          (sliderOptions[index_0].value = 10), this.setState({sliderOptions});
+        else
+          (sliderOptions[index_0].value = parseInt(asyncStorageRes, 10)),
+            this.setState({sliderOptions});
         //console.log('--' + sliderOptions[index].value + ' ' + index);
       })
       .catch(err => console.log(err));
@@ -123,8 +126,11 @@ class Prefs extends Component {
     AsyncStorage.getItem('percentage'.toString())
       .then(asyncStorageRes => {
         //console.log(JSON.parse(asyncStorageRes)),
-        (sliderOptions[index_1].value = parseInt(asyncStorageRes, 10)),
-          this.setState({sliderOptions});
+        if (!asyncStorageRes)
+          (sliderOptions[index_1].value = 50), this.setState({sliderOptions});
+        else
+          (sliderOptions[index_1].value = parseInt(asyncStorageRes, 10)),
+            this.setState({sliderOptions});
       })
       .catch(err => console.log(err));
 
@@ -137,8 +143,12 @@ class Prefs extends Component {
     AsyncStorage.getItem('price_show'.toString())
       .then(asyncStorageRes => {
         //console.log('-' + JSON.parse(asyncStorageRes)),
-        (sliderOptionsShow[index_0].value = parseInt(asyncStorageRes, 10)),
-          this.setState({sliderOptionsShow});
+        if (!asyncStorageRes)
+          (sliderOptionsShow[index_0].value = 10),
+            this.setState({sliderOptionsShow});
+        else
+          (sliderOptionsShow[index_0].value = parseInt(asyncStorageRes, 10)),
+            this.setState({sliderOptionsShow});
         //console.log('--' + sliderOptions[index].value + ' ' + index);
       })
       .catch(err => console.log(err));
@@ -152,16 +162,22 @@ class Prefs extends Component {
     AsyncStorage.getItem('percentage_show'.toString())
       .then(asyncStorageRes => {
         //console.log(JSON.parse(asyncStorageRes)),
-        (sliderOptionsShow[index_1].value = parseInt(asyncStorageRes, 10)),
-          this.setState({sliderOptionsShow});
+        if (!asyncStorageRes)
+          (sliderOptionsShow[index_1].value = 50),
+            this.setState({sliderOptionsShow});
+        else
+          (sliderOptionsShow[index_1].value = parseInt(asyncStorageRes, 10)),
+            this.setState({sliderOptionsShow});
       })
       .catch(err => console.log(err));
 
     AsyncStorage.getItem('switch'.toString())
       .then(asyncStorageRes => {
         //console.log(JSON.parse(asyncStorageRes)),
-        (value = asyncStorageRes == 'true'),
-          this.setState({switchValue: value});
+        if (!asyncStorageRes) this.setState({switchValue: 'false'});
+        else
+          (value = asyncStorageRes == 'true'),
+            this.setState({switchValue: value});
       })
       .catch(err => console.log(err));
   };
