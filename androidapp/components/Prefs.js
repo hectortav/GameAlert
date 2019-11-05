@@ -19,7 +19,7 @@ import PushNotification from 'react-native-push-notification';
 class Prefs extends Component {
   constructor(props) {
     super(props);
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    //this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
     this.state = {
       switchValue: false,

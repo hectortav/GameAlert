@@ -123,7 +123,6 @@ class GetList extends Component {
     const {output} = this.state;
     return (
       <View>
-        <View></View>
         <ScrollView
           style={{
             backgroundColor: '#232A2B',
@@ -213,6 +212,7 @@ class GetList extends Component {
                         }}
                       />
                     </Card>
+                    <View style={{flex: 1, height: 10}} />
                   </TouchableOpacity>
                 </View>
               ) : (
@@ -222,6 +222,7 @@ class GetList extends Component {
           ) : (
             <Text />
           )}
+          <View style={{flex: 1, height: 100}} />
         </ScrollView>
       </View>
     );
