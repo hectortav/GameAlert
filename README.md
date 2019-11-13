@@ -2,6 +2,9 @@
 
 GameAlert is a web - mobile app powered by the Reddit Api. The app will display game discounts and deals according to the user's preferences along with notifying the user for big price drops or free games. 
 
+![alt text](./list.png)
+![alt text](./prefs.png)
+
 ### Tech
 
 GameAlert is build using:
