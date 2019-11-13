@@ -13,7 +13,7 @@ GameAlert is build using:
 * [React Native](https://facebook.github.io/react-native/) - Used for most of the app.
 * [Android Studio](https://developer.android.com/studio) - Used alongside React Native.
 
-GameAlert is open source with a [public repository](https://github.com/hectortav/reddit_notifications)
+GameAlert is open source with a [public repository](https://github.com/hectortav/GameAlert)
  on GitHub.
 
 ### Installation
